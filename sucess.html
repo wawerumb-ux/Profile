@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Message Sent - John Waweru</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="icon" href="image/atom.png" type="image/x-icon">
+  <style>
+    :root {
+      --primary: #2c3e50;
+      --secondary: #3498db;
+      --accent: #e74c3c;
+      --light: #ecf0f1;
+    }
+    
+    body {
+      margin: 0;
+      font-family: "Poppins", Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+    }
+
+    .card {
+      background: #fff;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      text-align: center;
+      max-width: 400px;
+      animation: fadeIn 1s ease;
+      color: var(--primary);
+    }
+
+    h1 {
+      color: var(--secondary);
+      margin-bottom: 15px;
+      font-size: 2.2em;
+    }
+
+    p {
+      font-size: 1.1em;
+      margin-bottom: 20px;
+    }
+
+    a {
+      display: inline-block;
+      padding: 12px 25px;
+      background: var(--secondary);
+      color: #fff;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    a:hover {
+      background: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      .card {
+        padding: 25px;
+        margin: 20px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+      p {
+        font-size: 1em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1><i class="fas fa-check-circle"></i> Thank You!</h1>
+    <p>Your message has been sent successfully. I'll get back to you soon.</p>
+    <a href="index.html"><i class="fas fa-arrow-left"></i> Back to Resume</a>
+  </div>
+</body>
+</html>
