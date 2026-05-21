@@ -4,94 +4,304 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex">
-  <title>Message Sent - John Waweru</title>
+  <title>Message Sent · John Waweru</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="icon" href="image/atom.png" type="image/x-icon">
   <style>
     :root {
-      --primary: #2c3e50;
-      --secondary: #3498db;
-      --accent: #e74c3c;
-      --light: #ecf0f1;
+      --bg:      #080b0f;
+      --surface: #141c26;
+      --border:  rgba(0,230,200,0.12);
+      --cyan:    #00e6c8;
+      --cyan-dim: rgba(0,230,200,0.1);
+      --cyan-glow: rgba(0,230,200,0.3);
+      --text:    #c9d4e0;
+      --text-bright: #eaf2ff;
+      --text-dim: #6b7a8d;
+      --mono:    'Space Mono', monospace;
+      --display: 'Syne', sans-serif;
+      --body:    'DM Sans', sans-serif;
     }
-    
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
     body {
-      margin: 0;
-      font-family: "Poppins", Arial, sans-serif;
+      font-family: var(--body);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
       display: flex;
-      justify-content: center;
       align-items: center;
-      height: 100vh;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      color: white;
+      justify-content: center;
+      overflow: hidden;
+      cursor: none;
     }
 
+    /* ── Grid background ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 40%, transparent 100%);
+      pointer-events: none;
+    }
+
+    /* ── Glow orb ── */
+    body::after {
+      content: '';
+      position: fixed;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(0,230,200,0.07) 0%, transparent 70%);
+      top: 50%; left: 50%; transform: translate(-50%,-50%);
+      pointer-events: none;
+    }
+
+    /* ── Custom cursor ── */
+    #cursor {
+      position: fixed; z-index: 9999; pointer-events: none;
+      width: 12px; height: 12px;
+      background: var(--cyan); border-radius: 50%;
+      transform: translate(-50%,-50%);
+      mix-blend-mode: screen;
+      transition: width .3s, height .3s;
+    }
+    #cursor-ring {
+      position: fixed; z-index: 9998; pointer-events: none;
+      width: 36px; height: 36px;
+      border: 1.5px solid var(--cyan); border-radius: 50%;
+      transform: translate(-50%,-50%);
+      opacity: 0.5;
+      transition: width .3s, height .3s;
+    }
+
+    /* ── Card ── */
     .card {
-      background: #fff;
-      padding: 40px;
-      border-radius: 15px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      position: relative; z-index: 2;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 3.5rem 3rem;
+      max-width: 480px; width: 90%;
       text-align: center;
-      max-width: 400px;
-      animation: fadeIn 1s ease;
-      color: var(--primary);
+      animation: riseIn 0.8s cubic-bezier(0.16,1,0.3,1) forwards;
+      opacity: 0;
     }
 
+    /* Cyan top accent bar */
+    .card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+      border-radius: 6px 6px 0 0;
+    }
+
+    /* ── Icon ── */
+    .icon-wrap {
+      width: 72px; height: 72px;
+      margin: 0 auto 2rem;
+      background: var(--cyan-dim);
+      border: 1px solid rgba(0,230,200,0.25);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+      animation: pulse 2.5s ease-in-out infinite;
+    }
+    .icon-wrap i {
+      font-size: 1.8rem;
+      color: var(--cyan);
+    }
+    /* Ripple rings */
+    .icon-wrap::before, .icon-wrap::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(0,230,200,0.2);
+      animation: ripple 2.5s ease-out infinite;
+    }
+    .icon-wrap::before { width: 100px; height: 100px; animation-delay: 0s; }
+    .icon-wrap::after  { width: 130px; height: 130px; animation-delay: 0.6s; }
+
+    /* ── Status tag ── */
+    .status-tag {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--cyan);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      display: block;
+      animation: fadeUp 0.6s 0.3s both;
+    }
+
+    /* ── Heading ── */
     h1 {
-      color: var(--secondary);
-      margin-bottom: 15px;
-      font-size: 2.2em;
+      font-family: var(--display);
+      font-size: 2.4rem;
+      font-weight: 800;
+      color: var(--text-bright);
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+      animation: fadeUp 0.6s 0.45s both;
     }
 
+    /* ── Body text ── */
     p {
-      font-size: 1.1em;
-      margin-bottom: 20px;
+      font-size: 0.95rem;
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 2rem;
+      animation: fadeUp 0.6s 0.6s both;
     }
+    p strong { color: var(--text); font-weight: 500; }
 
-    a {
-      display: inline-block;
-      padding: 12px 25px;
-      background: var(--secondary);
-      color: #fff;
-      border-radius: 25px;
+    /* ── Terminal line ── */
+    .terminal-line {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      background: rgba(0,0,0,0.3);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 0.7rem 1rem;
+      margin-bottom: 2rem;
+      text-align: left;
+      animation: fadeUp 0.6s 0.7s both;
+    }
+    .terminal-line .prompt { color: var(--cyan); margin-right: 0.5rem; }
+    .terminal-line .ok { color: #4caf83; }
+
+    /* ── CTA button ── */
+    .btn-back {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
       text-decoration: none;
-      font-weight: 500;
-      transition: all 0.3s ease;
+      color: var(--bg);
+      background: var(--cyan);
+      padding: 0.9rem 2rem;
+      border-radius: 2px;
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      transition: all 0.2s;
+      animation: fadeUp 0.6s 0.8s both;
     }
-
-    a:hover {
-      background: var(--primary);
+    .btn-back:hover {
+      background: #00fff5;
+      box-shadow: 0 0 30px var(--cyan-glow);
       transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4);
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    /* ── Countdown ── */
+    .countdown {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      letter-spacing: 0.08em;
+      margin-top: 1.2rem;
+      animation: fadeUp 0.6s 1s both;
+    }
+    .countdown span { color: var(--cyan); }
+
+    /* ── Animations ── */
+    @keyframes riseIn {
+      from { opacity:0; transform: translateY(30px) scale(0.97); }
+      to   { opacity:1; transform: translateY(0) scale(1); }
+    }
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(14px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    @keyframes pulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(0,230,200,0); }
+      50%      { box-shadow: 0 0 20px 4px rgba(0,230,200,0.15); }
+    }
+    @keyframes ripple {
+      0%   { transform: translate(-50%,-50%) scale(0.6); opacity:0.6; }
+      100% { transform: translate(-50%,-50%) scale(1.3); opacity:0; }
+    }
+    /* offset ripple centering */
+    .icon-wrap::before, .icon-wrap::after {
+      top: 50%; left: 50%;
     }
 
-    @media (max-width: 768px) {
-      .card {
-        padding: 25px;
-        margin: 20px;
-      }
-      h1 {
-        font-size: 1.8em;
-      }
-      p {
-        font-size: 1em;
-      }
+    @media (max-width: 480px) {
+      .card { padding: 2.5rem 1.8rem; }
+      h1 { font-size: 1.9rem; }
     }
   </style>
 </head>
 <body>
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+
   <div class="card">
-    <h1><i class="fas fa-check-circle"></i> Thank You!</h1>
-    <p>Your message has been sent successfully. I'll get back to you soon.</p>
-    <a href="index.html"><i class="fas fa-arrow-left"></i> Back to Resume</a>
+    <div class="icon-wrap">
+      <i class="fas fa-check"></i>
+    </div>
+
+    <span class="status-tag">✓ Transmission received</span>
+
+    <h1>Message<br>Delivered.</h1>
+
+    <p>
+      Thanks for reaching out, <strong>I'll respond to you soon.</strong><br>
+      Expect a reply to your inbox within 24–48 hours.
+    </p>
+
+    <div class="terminal-line">
+      <span class="prompt">$</span>
+      email.send → wawerumb@gmail.com
+      <br>
+      <span class="prompt">→</span>
+      <span class="ok">status: 200 OK · queued for reply</span>
+    </div>
+
+    <a href="index.html" class="btn-back">
+      <i class="fas fa-arrow-left"></i> Back to Portfolio
+    </a>
+
+    <div class="countdown">
+      Auto-redirecting in <span id="timer">8</span>s
+    </div>
   </div>
+
+  <script>
+    /* Cursor */
+    const cursor = document.getElementById('cursor');
+    const ring   = document.getElementById('cursor-ring');
+    let mx=0,my=0,rx=0,ry=0;
+    document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
+    (function animCursor(){
+      cursor.style.left=mx+'px'; cursor.style.top=my+'px';
+      rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12;
+      ring.style.left=rx+'px'; ring.style.top=ry+'px';
+      requestAnimationFrame(animCursor);
+    })();
+    document.querySelector('.btn-back').addEventListener('mouseenter',()=>{
+      cursor.style.width='20px'; cursor.style.height='20px';
+      ring.style.width='56px'; ring.style.height='56px';
+    });
+    document.querySelector('.btn-back').addEventListener('mouseleave',()=>{
+      cursor.style.width='12px'; cursor.style.height='12px';
+      ring.style.width='36px'; ring.style.height='36px';
+    });
+
+    /* Countdown redirect */
+    let secs = 8;
+    const timerEl = document.getElementById('timer');
+    const interval = setInterval(() => {
+      secs--;
+      timerEl.textContent = secs;
+      if (secs <= 0) {
+        clearInterval(interval);
+        window.location.href = 'index.html';
+      }
+    }, 1000);
+  </script>
 </body>
 </html>
